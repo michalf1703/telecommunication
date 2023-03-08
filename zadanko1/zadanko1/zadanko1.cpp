@@ -4,6 +4,6 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello World!\n";
+    cout << "nie no czemu dodala sie maria.piekacz xddd"!\n";
 }
 
