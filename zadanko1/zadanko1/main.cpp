@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <cmath>
 #include <vector>
@@ -63,7 +63,7 @@ vector<bool> encode(vector<bool> msg) {
         code.push_back(msg[i]);
         bits.push_back(msg[i]);
 
-        if ((i + 1) % 8 == 0 && i != 0) { 
+        if ((i + 1) % 8 == 0 && i != 0) {
             addParity(bits);
             for (int k = 0; k < 8; k++) {
                 code.push_back(bits[k + 8]);
@@ -85,7 +85,7 @@ void adjust(vector<bool>& msg, vector<bool> err) {
             }
         }
         if (adjusted) {
-            msg[i] = (~msg[i]) % 2; 
+            msg[i] = (~msg[i]) % 2;
         }
     }
 }
@@ -178,10 +178,10 @@ int main() {
         multivector.push_back(row);
     }
     vector<bool> fixed;
-    int amount = 0; 
+    int amount = 0;
     string ans;
 
- 
+
     for (int i = 0; i < err.size(); i++) {
         multivector[amount].push_back(err[i]);
         if ((i + 1) % 16 == 0) amount++;
@@ -194,7 +194,7 @@ int main() {
     for (int i = 0; i < text_size; i++) {
         verify(multivector[i], encoded.size() / text_size);
         err.insert(err.end(), multivector[i].begin(), multivector[i].end());
-        ans += bin_to_char(multivector[i]); 
+        ans += bin_to_char(multivector[i]);
         out_file << bin_to_char(multivector[i]);
     }
 

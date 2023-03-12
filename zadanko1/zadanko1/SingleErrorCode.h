@@ -1,4 +1,3 @@
-
 //kod korygujacy jeden blad wymaga: 
 // -nie posiada kolumny zerowej
 // -wszystkie kolumny sa rozne
