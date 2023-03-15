@@ -35,15 +35,9 @@
     <ClCompile Include="telekomzad1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <QtRcc Include="..\..\QtWidgetsApplication1\QtWidgetsApplication1\QtWidgetsApplication1.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\QtWidgetsApplication1\QtWidgetsApplication1\QtWidgetsApplication1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,18 +48,5 @@
     <ClInclude Include="SingleErrorCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="..\..\QtWidgetsApplication1\QtWidgetsApplication1\QtWidgetsApplication1.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="QtWidgetsApplication1.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
 </Project>
