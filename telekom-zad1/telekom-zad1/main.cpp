@@ -1,3 +1,6 @@
+#include "telekomzad1.h"
+#include "QtWidgetsApplication1.h"
+#include <QtWidgets/QApplication>
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -5,9 +8,9 @@
 #include<iostream>
 #include<string>
 #include "DoubleErrorCode.h"
+#include <windows.h>
 
 using namespace std;
-
 
 vector<bool> string_to_bin(string str) {
     vector<bool> msg;
@@ -112,8 +115,11 @@ void verify(vector<bool>& msg, int len) {
     }
 }
 
-
-int main() {
+void callFunctions() {
+   
+    AllocConsole();
+    // Ustawienie strumienia wyjœcia na konsolê
+    freopen("CONOUT$", "w", stdout);
     vector<bool> message;
     vector<bool> encoded;
     vector<bool> err;
@@ -153,12 +159,17 @@ int main() {
         }
     }
     cout << "Bity: " << encoded.size();
-
+    string pobierz;
     input_file.close();
     output_file.close();
     encoded_file.close();
     cout << "\n\nMozna teraz wprowadzic zmiany w pliku.\nWcisnij Enter, aby kontynuowac." << endl;
-    getchar();
+    while (!GetAsyncKeyState(VK_LBUTTON)) {
+        while (!GetAsyncKeyState(VK_RBUTTON)) {
+            Sleep(100); // odczekaj 100ms
+        }
+        Sleep(100); // odczekaj 100ms
+    }
 
     encoded_file.open("encoded.txt", ios::in);
     while (!encoded_file.eof()) {
@@ -207,5 +218,22 @@ int main() {
     }
     cout << "Bity:\n" << err.size() << endl;
     cout << "\nOdebrana wiadomosc: " << ans << endl;
-    return 0;
+
+}
+
+
+
+int main(int argc, char* argv[])
+{
+    
+    QApplication a(argc, argv);
+    QApplication b(argc, argv);
+    QtWidgetsApplication1 x;
+    telekomzad1 w;
+    x.show();
+    w.show();
+    callFunctions();
+    return a.exec();    
+    return b.exec();
+
 }
