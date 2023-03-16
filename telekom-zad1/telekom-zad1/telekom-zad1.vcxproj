@@ -84,13 +84,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="telekomzad1.qrc" />
+    <QtUic Include="..\..\..\..\QtWidgetsApplication1\QtWidgetsApplication1\QtWidgetsApplication1.ui" />
     <QtUic Include="telekomzad1.ui" />
     <QtMoc Include="telekomzad1.h" />
+    <ClCompile Include="QtWidgetsApplication1.cpp" />
     <ClCompile Include="telekomzad1.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoubleErrorCode.h" />
+    <QtMoc Include="QtWidgetsApplication1.h" />
     <ClInclude Include="SingleErrorCode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,6 @@
 #include "telekomzad1.h"
 #include <QtWidgets/QApplication>
+#include "QtWidgetsApplication1.h"
 #include <iostream>
 #include <Windows.h>
 #include <iostream>
@@ -134,6 +135,7 @@ void telekomzad1::verify(vector<bool>& msg, int len) {
         adjust(msg, err);
     }
 }
+
 
 void telekomzad1::callFunctions() {
 
