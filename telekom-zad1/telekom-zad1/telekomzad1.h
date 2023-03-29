@@ -23,11 +23,13 @@ public:
 
     vector<bool> char_to_bin(string str);
     char bin_to_char(vector<bool> bin);
-    int parity(vector<bool> msg, int n);
-    void addParity(vector<bool>& msg);
-    vector<bool> encode(vector<bool> msg);
-    void adjust(vector<bool>& msg, vector<bool> err);
-    void verify(vector<bool>& msg, int len);
+    int bitKontrolny(vector<bool> msg, int n);
+    void dodajBitKontrolny(vector<bool>& msg);
+    vector<bool> kodowanie(vector<bool> msg);
+    void regulacja(vector<bool>& msg, vector<bool> err);
+    void weryfikacja(vector<bool>& msg, int len);
+    void zapsiszZakodowanyDoASCII(std::vector<bool> bits, std::string filename);
+    vector<bool> asciiToBinary(const vector<char>& data);
 
 private slots:
     void callFunctions();

@@ -2,9 +2,6 @@
 #include <QtWidgets/QApplication>
 #include "QtWidgetsApplication1.h"
 #include <iostream>
-#include <Windows.h>
-#include <iostream>
-#include <fstream>
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -14,7 +11,7 @@
 #include <windows.h>
 #include "telekomzad1.h"
 #include "DoubleErrorCode.h"
-
+#include <bitset>
 
 using namespace std;
 
@@ -63,7 +60,7 @@ char telekomzad1::bin_to_char(vector<bool> bin) {
     return chr;
 }
 
-int telekomzad1::parity(vector<bool> msg, int n) {
+int telekomzad1::bitKontrolny(vector<bool> msg, int n) {
     int p = 0;
     for (int i = 0; i < msg.size(); i++) {
         p += DoubleErrorMatrix[n][i] * msg[i];
@@ -72,14 +69,14 @@ int telekomzad1::parity(vector<bool> msg, int n) {
     return p;
 }
 
-void telekomzad1::addParity(vector<bool>& msg) {
+void telekomzad1::dodajBitKontrolny(vector<bool>& msg) {
     vector<bool> msgcopy = msg;
     for (int i = 0; i < 16; i++) {
-        msg.push_back(parity(msgcopy, i));
+        msg.push_back(bitKontrolny(msgcopy, i));
     }
 }
 
-vector<bool> telekomzad1::encode(vector<bool> msg) {
+vector<bool> telekomzad1::kodowanie(vector<bool> msg) {
     vector<bool> code;
     vector<bool> bits;
 
@@ -88,7 +85,7 @@ vector<bool> telekomzad1::encode(vector<bool> msg) {
         bits.push_back(msg[i]);
 
         if ((i + 1) % 8 == 0 && i != 0) {
-            addParity(bits);
+            dodajBitKontrolny(bits);
             for (int k = 0; k < 8; k++) {
                 code.push_back(bits[k + 8]);
             }
@@ -98,7 +95,7 @@ vector<bool> telekomzad1::encode(vector<bool> msg) {
     return code;
 }
 
-void telekomzad1::adjust(vector<bool>& msg, vector<bool> err) {
+void telekomzad1::regulacja(vector<bool>& msg, vector<bool> err) {
     bool adjusted = false;
     for (int i = 0; i < 16; i++) {
         for (int k = 0; k < 8; k++) {
@@ -115,25 +112,59 @@ void telekomzad1::adjust(vector<bool>& msg, vector<bool> err) {
 }
 
 
-void telekomzad1::verify(vector<bool>& msg, int len) {
+void telekomzad1::weryfikacja(vector<bool>& msg, int len) {
     bool verified = true;
     if (msg.size() != len) {
-        cout << "Nieprawidlowa ilosc bitow (" << msg.size() << ")! Konczenie pracy progamu.\n";
+       std::cout << "Nieprawidlowa ilosc bitow (" << msg.size() << ")! Konczenie pracy progamu.\n";
         return;
     }
     vector<bool> err;
     int num;
     for (int i = 0; i < 8; i++) {
-        num = parity(msg, i);
+        num = bitKontrolny(msg, i);
         err.push_back(num);
         if (num == 1) verified = false;
     }
 
-    if (verified) cout << "OK" << endl;
+    if (verified) std::cout << "OK" << endl;
     else {
-        cout << "ERROR - ADJUSTING" << endl;
-        adjust(msg, err);
+        std::cout << "ERROR - ADJUSTING" << endl;
+        regulacja(msg, err);
     }
+}
+
+void telekomzad1::zapsiszZakodowanyDoASCII(std::vector<bool> bits, std::string filename) {
+    std::string str = "";
+    for (int i = 0; i < bits.size(); i += 8) {
+        int code = 0;
+        for (int j = 0; j < 8; j++) {
+            code <<= 1;
+            code |= bits[i + j];
+        }
+        str += char(code);
+    }
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        file << str;
+        file.close();
+        std::cout << "Zakodowany plik zapisano pomyslnie." << std::endl;
+    }
+    else {
+        std::cerr << "Blad. Nie udalo sie zapisac pliku." << std::endl;
+    }
+}
+
+vector<bool> telekomzad1::asciiToBinary(const vector<char>& data) {
+    vector<bool> binary;
+
+    for (char znak : data) {
+        bitset<8> b(znak); // konwersja znaku ASCII na bitset o rozmiarze 8 bitów
+        for (int i = 0; i < 8; i++) {
+            binary.push_back(b[7 - i]); // dodanie kolejnych bitów do wektora
+        }
+    }
+
+    return binary;
 }
 
 
@@ -144,16 +175,16 @@ void telekomzad1::callFunctions() {
     freopen("CONOUT$", "w", stdout);
     vector<bool> message;
     vector<bool> encoded;
-    vector<bool> err;
+    //vector<char> err;
     string text;
 
     ifstream input_file;
     ofstream output_file;
-    fstream encoded_file;
+  //  fstream encoded_file;
 
-    input_file.open("message.txt");
-    output_file.open("binary.txt");
-    encoded_file.open("encoded.txt", ios::out);
+    input_file.open("wiadomosc.txt");
+    output_file.open("binarnie.txt");
+  //  encoded_file.open("encoded.txt", ios::out);
 
     while (!input_file.eof()) {
         getline(input_file, text);
@@ -167,44 +198,47 @@ void telekomzad1::callFunctions() {
         output_file << message[i];
         if ((i + 1) % 8 == 0) cout << "\n";
     }
+
     cout << "Bity:" << message.size() << endl;
 
-    encoded = encode(message);
-    int t = 0;
-    cout << "\nZakodowana wiadomosc:" << endl;
-    for (int i = 0; i < encoded.size(); i++) {
-        encoded_file << encoded[i];
-        cout << encoded[i] << " ";
-        if ((i + 1) % 8 == 0) {
-            cout << "\n";
-            t++;
-        }
-    }
-    cout << "Bity: " << encoded.size();
-    string pobierz;
+    encoded = kodowanie(message);
+    //int t = 0;
+   // for (int i = 0; i < encoded.size(); i++) {
+      //  encoded_file << encoded[i];
+       // cout << encoded[i] << " ";
+       // if ((i + 1) % 8 == 0) {
+       //     cout << "\n";
+        //    t++;
+       // }
+   // }
+    zapsiszZakodowanyDoASCII(encoded, "zakodowane.txt");
+
+   // string pobierz;
     input_file.close();
     output_file.close();
-    encoded_file.close();
-    cout << "\n\nMozna teraz wprowadzic zmiany w pliku.\nWcisnij Enter, aby kontynuowac." << endl;
-    while (!GetAsyncKeyState(VK_LBUTTON)) {
-        while (!GetAsyncKeyState(VK_RBUTTON)) {
-            Sleep(100); // odczekaj 100ms
-        }
+   // encoded_file.close();
+    cout << "\n\nMozna teraz wprowadzic zmiany w pliku zakodowane.txt .\nWcisnij enter, aby kontynuowac." << endl;
+    while (!GetAsyncKeyState(VK_RETURN)) {
         Sleep(100); // odczekaj 100ms
     }
+    ifstream plik("zakodowane.txt"); // otwarcie pliku do odczytu
+    vector<char> err;
+    char znak;
 
-    encoded_file.open("encoded.txt", ios::in);
-    while (!encoded_file.eof()) {
-        getline(encoded_file, text);
+    // odczytanie kolejnych znaków z pliku
+    while (plik.get(znak)) {
+        err.push_back(znak);
     }
-    err = string_to_bin(text);
-    cout << "Po zmianie:" << endl;
-    for (int i = 0; i < err.size(); i++) {
-        cout << err[i];
+
+    // zamiana na postaæ binarn¹
+    vector<bool> binarny = asciiToBinary(err);
+
+    cout << "Po modyfikacji: " << endl;
+    for (int i = 0; i < binarny.size(); i++) {
+        cout << binarny[i];
         if ((i + 1) % 8 == 0) cout << "\n";
     }
-    cout << "\nBity: " << err.size() << endl;
-
+    cout << "\nBity: " <<binarny.size() << endl;
     vector<vector<bool>> multivector;
     for (int i = 0; i < text_size; i++) {
         vector<bool> row;
@@ -215,30 +249,28 @@ void telekomzad1::callFunctions() {
     string ans;
 
 
-    for (int i = 0; i < err.size(); i++) {
-        multivector[amount].push_back(err[i]);
+    for (int i = 0; i < binarny.size(); i++) {
+        multivector[amount].push_back(binarny[i]);
         if ((i + 1) % 16 == 0) amount++;
     }
-    err.clear();
+    binarny.clear();
 
     fstream out_file;
-    out_file.open("received.txt", ios::out);
+    out_file.open("odzyskana_wiadomosc.txt", ios::out);
 
     for (int i = 0; i < text_size; i++) {
-        verify(multivector[i], encoded.size() / text_size);
-        err.insert(err.end(), multivector[i].begin(), multivector[i].end());
+        weryfikacja(multivector[i], encoded.size() / text_size);
+        binarny.insert(binarny.end(), multivector[i].begin(), multivector[i].end());
         ans += bin_to_char(multivector[i]);
         out_file << bin_to_char(multivector[i]);
     }
 
-    encoded_file.close();
     out_file.close();
     cout << "\nPoprawione:" << endl;
-    for (int i = 0; i < err.size(); i++) {
-        cout << err[i];
+    for (int i = 0; i < binarny.size(); i++) {
+        cout << binarny[i];
         if ((i + 1) % 8 == 0) cout << "\n";
     }
-    cout << "Bity:\n" << err.size() << endl;
     cout << "\nOdebrana wiadomosc: " << ans << endl;
-
+    
 }
