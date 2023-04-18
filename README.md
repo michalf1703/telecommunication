@@ -2,7 +2,7 @@
 <h1 align="center">
   <br>
   <br>
-  TELECOMMUNICATION 📲 ⚡️
+  TELECOMMUNICATION 📞 ⚡️
   <br>
 </h1>
 Task1. Codes for detecting and correcting transmission errorsFile in c++ 
