@@ -17,23 +17,24 @@ class telekomzad1 : public QWidget
     Q_OBJECT
 
 public:
-    telekomzad1(QWidget *parent = nullptr);
+    telekomzad1(QWidget* parent = nullptr);
     ~telekomzad1();
-    vector<bool> string_to_bin(string str);
-
-    vector<bool> char_to_bin(string str);
-    char bin_to_char(vector<bool> bin);
-    int bitKontrolny(vector<bool> msg, int n);
-    void dodajBitKontrolny(vector<bool>& msg);
-    vector<bool> kodowanie(vector<bool> msg);
-    void regulacja(vector<bool>& msg, vector<bool> err);
-    void weryfikacja(vector<bool>& msg, int len);
-    void zapsiszZakodowanyDoASCII(std::vector<bool> bits, std::string filename);
     vector<bool> asciiToBinary(const vector<char>& data);
+    vector<bool> zamienSlowoNaPostacBitowa(std::string slowo);
+    vector<bool> ASCIItoBinary(int znak);
+    vector<bool> dodajBityParzystosci(std::vector<bool>wiadomosc);
+    vector<bool> zamienStringBitowyNaBity(std::string stringbitowy);
+    string zamienNaZakodowanyString(std::vector<bool> bity);
+    int BinaryToAscii(std::vector<bool> bity);
+    string poprawSlowo(std::string doPoprawienia);
+    string konwertujZakodowaneSlowoNaPostacBitowa(std::string test);
+    vector<bool> iloczynHX(std::vector<bool> tab);
+    vector<bool> findWrongColumns(std::vector<bool> E);
+    vector<bool> fix(std::vector<bool> slowo, std::vector<bool> wrongColumns);
 
 private slots:
     void callFunctions();
-         
+
 private:
     Ui::telekomzad1Class ui;
 };
