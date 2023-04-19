@@ -13,4 +13,7 @@ Task3. Implementation of the Huffman coding algorithmFile in c#
 
 > GitHub [@michalf1703](https://github.com/michalf1703)
 
+> GitHub [@MushroomArturek](https://github.com/MushroomArturek)
+
+
 
