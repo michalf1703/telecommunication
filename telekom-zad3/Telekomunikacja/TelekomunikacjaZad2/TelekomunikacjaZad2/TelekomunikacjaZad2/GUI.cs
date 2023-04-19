@@ -14,9 +14,9 @@ namespace TelekomunikacjaZad2
     {
         FileOperations fileMenager = new FileOperations();
         Huffman huffman = new Huffman();
-        FileEncoder fileEncoder = new FileEncoder();
+        EncodeFile fileEncoder = new EncodeFile();
         ReciveMessage fileReciever = new ReciveMessage();
-        FileSender fileSender = new FileSender();
+        SendFile fileSender = new SendFile();
         Node tree = null;
         Serializer serializer = new Serializer();
         string bitCode = String.Empty;
@@ -71,7 +71,7 @@ namespace TelekomunikacjaZad2
 
         private void SendButton_Click(object sender, EventArgs e)       
         {
-            byte[] send = fileEncoder.HuffmanEncoder(bitCode);
+            byte[] send = fileEncoder.encodeHuffman(bitCode);
 
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.OverwritePrompt = true;
@@ -100,7 +100,7 @@ namespace TelekomunikacjaZad2
         {
             if (bitCode != String.Empty && tree != null)
             {
-                text = fileEncoder.HuffmanDecoder(bitCode, tree);
+                text = fileEncoder.DecodeHuffman(bitCode, tree);
                 StringText.Text = text;
             }
             if (text != String.Empty)
@@ -131,7 +131,7 @@ namespace TelekomunikacjaZad2
 
         private void RecieveTreeButton_Click(object sender, EventArgs e)    
         {
-            tree = fileReciever.recieveTree(Convert.ToInt32(Port2.Text));
+            tree = fileReciever.getTree(Convert.ToInt32(Port2.Text));
             treeDictionary = huffman.generateDictionary2(tree);
             DicionaryText.Text = treeDictionary;
         }
