@@ -119,7 +119,7 @@ namespace TelekomunikacjaZad2
             return str;
         }
     }
-
+    //The class represents a character with its representation as 0s and 1s from the tree
     internal class HuffmanDictionary    
     {
         private char sign;
@@ -135,6 +135,8 @@ namespace TelekomunikacjaZad2
         public string Code { get => code; set => code = value; }
     }
 
+
+    //representation of a node in a huffman binary tree
         internal class Node                  
     {
         private Node? left, right;
@@ -158,6 +160,7 @@ namespace TelekomunikacjaZad2
         internal Node? Right { get => right; set => right = value; }
     }
 
+    //A class that serializes the tree to a string and reverses the process (on receipt)
     internal class Serializer   
     {
         string text = string.Empty;
@@ -175,9 +178,10 @@ namespace TelekomunikacjaZad2
         public List<char> SignList { get => signList; set => signList = value; }
         internal List<Node> NodeList { get => nodeList; set => nodeList = value; }
 
+        //Function that creates 2 strings from the binary tree (one for characters, one for frequencies)
         public void serialize(Node root)     
         {                                           
-            if (root == null)
+            if (root == null)                       //If the next node is null we append '&' when changing node we append '^'
             {
                 text += "&" + "^";
                 frequencies += "&" + "^";
@@ -187,8 +191,11 @@ namespace TelekomunikacjaZad2
             frequencies += Convert.ToString(root.Frequency) + "^";
             serialize(root.Left);                   
             serialize(root.Right);
+            //Execute recursively until all tree nodes are served
         }
 
+        //The function creates lists from strings received in transmission (Socked)
+        //remove unnecessary ^ and & characters from them
         public void makeLists(string txt, string freq)  
         {                                               
             signList.Clear();
@@ -213,6 +220,7 @@ namespace TelekomunikacjaZad2
             }
         }
 
+        //Function that finds how many chars contain a number (node.frequency)
         private int findFrequency(string freq, int i)   
         {
             for (int j = i; j < freq.Length; j++)
@@ -225,6 +233,8 @@ namespace TelekomunikacjaZad2
             return 0;
         }
 
+
+        // use recursive string deserialization and output binary tree
         public Node deserialize()        
         {
             deserializeInner1();
@@ -232,6 +242,7 @@ namespace TelekomunikacjaZad2
             return tree;
         }
 
+        //replacing chars and ints from lists made of strings received in the transmission into a list of nodes
         public void deserializeInner1()         
         {
             nodeList.Clear();
@@ -248,7 +259,7 @@ namespace TelekomunikacjaZad2
                         nodeList.Add(null);
                     }
                 }
-                if (j == freqList.Count)        
+                if (j == freqList.Count)    // interrupt condition (frequencies will be less than characters because in the list of characters it is encoded where are nulls
                 {
                     return;
                 }
@@ -258,6 +269,8 @@ namespace TelekomunikacjaZad2
                 nodeList.Add(node);
             }
         }
+
+        // recursive deserlization (tree creation) from the list of nodes created earlier
         public Node deserializeInner2()  
         {
             if (nodeList[deserializeInt] == null)
@@ -273,10 +286,13 @@ namespace TelekomunikacjaZad2
         }
     }
 
+    //compare the list to display it after the code length 0 and 1 of a given character
     internal class CompareHuffmanDictionary : IComparer<HuffmanDictionary>  
     {
         public int Compare(HuffmanDictionary x, HuffmanDictionary y) => x.Code.Length.CompareTo(y.Code.Length);
     }
+
+    //sorts the nodes of the huffman tree to arrange them in descending order of frequency
     internal class CompareHuffmanNodes : IComparer<Node> 
     {
         public int Compare(Node x, Node y) => x.Frequency.CompareTo(y.Frequency);

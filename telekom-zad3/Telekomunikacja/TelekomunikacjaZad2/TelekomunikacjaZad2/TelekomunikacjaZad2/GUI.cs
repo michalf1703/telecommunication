@@ -26,10 +26,11 @@ namespace TelekomunikacjaZad2
         public GUI()
         {
             InitializeComponent();
-            Port2.Text = Convert.ToString(FreeTcpPort());   
-            IPAddr2.Text = GetLocalIPAddress();             
+            Port2.Text = Convert.ToString(FreeTcpPort());  //displaying a free port 
+            IPAddr2.Text = GetLocalIPAddress();           //displaying the local IP address
         }
 
+        //loading a text file
         private void ReadButton_Click(object sender, EventArgs e)   
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -44,7 +45,8 @@ namespace TelekomunikacjaZad2
                 StringText.Text = text;                     
             }
         }
-
+        // encode the message to 0 and 1 and create a huffman tree and display the code dictionary
+        //save file with bits
         private void CodeButton_Click(object sender, EventArgs e)       
         {
             if (text != String.Empty)
@@ -69,6 +71,8 @@ namespace TelekomunikacjaZad2
             }
         }
 
+
+        //send a file, provided that the recipient is waiting for a message and that the port and ip are given
         private void SendButton_Click(object sender, EventArgs e)       
         {
             byte[] send = fileEncoder.encodeHuffman(bitCode);
@@ -89,6 +93,7 @@ namespace TelekomunikacjaZad2
             }
         }
 
+        //waiting for a message
         private void RecieveButtonClick(object sender, EventArgs e)     
         {
             bitCode = fileReciever.getMessage(Convert.ToInt32(Port2.Text));
@@ -96,6 +101,7 @@ namespace TelekomunikacjaZad2
             BitText.Text = bitCode;
         }
 
+        // decode the file based on the code 0 and 1 and the binary tree
         private void DecodeButton_Click(object sender, EventArgs e)     
         {
             if (bitCode != String.Empty && tree != null)
@@ -115,6 +121,7 @@ namespace TelekomunikacjaZad2
             }
         }
 
+        //write the decoded file in the dialog box
         private void SaveButton_Click(object sender, EventArgs e)       
         {
             if (text != String.Empty)
@@ -129,6 +136,7 @@ namespace TelekomunikacjaZad2
             }
         }
 
+        //receive the code tree
         private void RecieveTreeButton_Click(object sender, EventArgs e)    
         {
             tree = fileReciever.getTree(Convert.ToInt32(Port2.Text));
@@ -136,6 +144,7 @@ namespace TelekomunikacjaZad2
             DicionaryText.Text = treeDictionary;
         }
 
+        //broadcast the code tree provided that the recipient is listening
         private void SendTreeButton_Click(object sender, EventArgs e)      
         {
             if (tree != null)
@@ -155,6 +164,7 @@ namespace TelekomunikacjaZad2
             }
         }
 
+        //function getting local ip address
         private static string GetLocalIPAddress()   
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -168,6 +178,7 @@ namespace TelekomunikacjaZad2
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
+        //function to get some free port
         private static int FreeTcpPort()       
         {
             TcpListener l = new TcpListener(IPAddress.Loopback, 0);

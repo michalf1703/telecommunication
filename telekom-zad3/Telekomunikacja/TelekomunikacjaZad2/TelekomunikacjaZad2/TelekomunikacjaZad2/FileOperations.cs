@@ -269,6 +269,7 @@ namespace Telekomunikacja1
             return retBytes;
         }
 
+        //Binary tree function to decode a message composed of zeros and ones
         public string DecodeHuffman(string bits, Node tree)         
         {
             string str = "";
@@ -276,7 +277,7 @@ namespace Telekomunikacja1
             {
                 Node root = tree;
                 int j = 0;
-                while (root.Sign == '$')                                    
+                while (root.Sign == '$')                           // if $ (unsigned node in our case) it goes left if 0 or right if 1         
                 {
                     if (i + j > bits.Length - 1)
                     {
