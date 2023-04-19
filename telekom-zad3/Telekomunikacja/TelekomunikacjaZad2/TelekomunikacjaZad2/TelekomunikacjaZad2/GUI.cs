@@ -49,7 +49,7 @@ namespace TelekomunikacjaZad2
         {
             if (text != String.Empty)
             {
-                huffman.countFrequencies(text);
+                huffman.getFrequencies(text);
                 treeDictionary = huffman.generateDictionary();
                 List<HuffmanDictionary> dictionary = huffman.DictionaryList;
                 bitCode = huffman.getHuffmanString(text, dictionary);
@@ -132,7 +132,7 @@ namespace TelekomunikacjaZad2
         private void RecieveTreeButton_Click(object sender, EventArgs e)    
         {
             tree = fileReciever.getTree(Convert.ToInt32(Port2.Text));
-            treeDictionary = huffman.generateDictionary2(tree);
+            treeDictionary = huffman.generateDictionaryForTransmition(tree);
             DicionaryText.Text = treeDictionary;
         }
 

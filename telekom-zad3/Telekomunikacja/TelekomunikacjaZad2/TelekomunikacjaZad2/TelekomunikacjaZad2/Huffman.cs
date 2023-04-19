@@ -1,6 +1,7 @@
 ﻿
 namespace TelekomunikacjaZad2
 {
+    // logic of huffman coding and creating a binary tree
     internal class Huffman  
     {
         List<Char> charList = new List<Char>();
@@ -8,18 +9,21 @@ namespace TelekomunikacjaZad2
         List<HuffmanDictionary> dictionaryList = new List<HuffmanDictionary>();
         internal List<HuffmanDictionary> DictionaryList { get => dictionaryList;}
 
-        public void countFrequencies(string text)                      
-        {
-            freqList = new List<int>();                                
-            charList = new List<Char>();                                
 
-            for (int i = 0; i < text.Length ; i++)                      
+        //Function to count the occurrences of each character to create a huffman binary tree
+
+        public void getFrequencies(string text)                      
+        {
+            freqList = new List<int>();                                 //List of their frequencies                  
+            charList = new List<Char>();                                //List containing chars without repetition                     
+
+            for (int i = 0; i < text.Length ; i++)                      //Add to the list of chars that are not already in it
             {
                 if (!charList.Contains(text[i]))
                     charList.Add(text[i]);
             }
             
-            for (int i = 0;i < charList.Count ; i++)                   
+            for (int i = 0;i < charList.Count ; i++)                   //Add each char in the char list to the frequency list
             {
                 Char c = charList[i];
                 int freq = text.Count(f => f == c);
@@ -30,7 +34,7 @@ namespace TelekomunikacjaZad2
                 Console.WriteLine(charList[i] + ": " + freqList[i]);
             }            
         }
-
+        //The function that generates the huffman binary tree
         public Node GenerateTree()                                       
         {
             Node left, right, top;
@@ -39,19 +43,19 @@ namespace TelekomunikacjaZad2
 
             for (int i = 0 ; i<charList.Count ; i++)
             {
-                huffmanList.Add(new Node(freqList[i], charList[i]));     
+                huffmanList.Add(new Node(freqList[i], charList[i]));                 //Create a List with huffman nodes using the lists from the previous function 
             }
 
-            while (huffmanList.Count != 1)                                                                          
+            while (huffmanList.Count != 1)                                          //Loop will stop until only one node remains (root of the tree)                                          
             {
-                huffmanList.Sort(new CompareHuffmanNodes());                    
+                huffmanList.Sort(new CompareHuffmanNodes());                      //Sort the list so that the least common characters are at the front        
                 left = huffmanList[0];
                 huffmanList.Remove(left);
                 right = huffmanList[0];
                 huffmanList.Remove(right);
 
 
-                top = new Node(left.Frequency + right.Frequency, '$');  
+                top = new Node(left.Frequency + right.Frequency, '$');          //Create a new parent node for the two least frequent ones
 
                 top.Left = left;
                 top.Right = right;
@@ -59,9 +63,11 @@ namespace TelekomunikacjaZad2
                 huffmanList.Add(top);
             }
 
-            return huffmanList[0];                                             
+            return huffmanList[0];                                             // Root of the tree
+
         }
 
+        //The function recursively enters 0 and 1 to create a user-presentable code dictionary
         public void createDictionary(Node root, string str)             
         {
             if (root == null)
@@ -72,7 +78,7 @@ namespace TelekomunikacjaZad2
             createDictionary(root.Left, str + "0");
             createDictionary(root.Right, str + "1");
         }
-
+        //Convert the dictionary to a displayable string
         public string generateDictionary()                                              
         {
             dictionaryList.Clear();
@@ -86,6 +92,7 @@ namespace TelekomunikacjaZad2
             return str;
         }
 
+        //Replaces the message with a string of 0s and 1s presented as a string for visual representation to the user
         public string getHuffmanString(string text, List<HuffmanDictionary> dictionary) 
         {
             string str = "";
@@ -98,7 +105,8 @@ namespace TelekomunikacjaZad2
             return str;
         }
 
-        public string generateDictionary2(Node root)                             
+        //Function creating a String of a code dictionary from a ready-made tree (received in transmission)
+        public string generateDictionaryForTransmition(Node root)                             
         {
             dictionaryList.Clear();
             createDictionary(root, "");
