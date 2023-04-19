@@ -15,7 +15,7 @@ namespace TelekomunikacjaZad2
         FileOperations fileMenager = new FileOperations();
         Huffman huffman = new Huffman();
         FileEncoder fileEncoder = new FileEncoder();
-        FileReciever fileReciever = new FileReciever();
+        ReciveMessage fileReciever = new ReciveMessage();
         FileSender fileSender = new FileSender();
         Node tree = null;
         Serializer serializer = new Serializer();
@@ -91,7 +91,7 @@ namespace TelekomunikacjaZad2
 
         private void RecieveButtonClick(object sender, EventArgs e)     
         {
-            bitCode = fileReciever.recieveMessage(Convert.ToInt32(Port2.Text));
+            bitCode = fileReciever.getMessage(Convert.ToInt32(Port2.Text));
             StringText.Text = String.Empty;
             BitText.Text = bitCode;
         }

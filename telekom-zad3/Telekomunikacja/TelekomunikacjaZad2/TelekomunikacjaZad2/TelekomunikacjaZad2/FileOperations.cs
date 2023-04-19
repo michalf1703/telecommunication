@@ -5,6 +5,7 @@ using TelekomunikacjaZad2;
 
 namespace Telekomunikacja1
 {
+    //methods for reading and writing files
     internal class FileOperations      
     {
         public byte[] readBytes(string path) { return File.ReadAllBytes(path); }                    
@@ -15,11 +16,11 @@ namespace Telekomunikacja1
 
         public void saveText(string data, string filePath) { File.WriteAllText(filePath, data); }   
     }
-    internal class FileReciever         
+    internal class ReciveMessage         
     {
         FileEncoder fileEncoder = new FileEncoder();
 
-        public string recieveMessage(int port)                                  
+        public string getMessage(int port)                                  
         {
             TcpListener listener = new TcpListener(IPAddress.Any, port);        
             listener.Start();                                                   
