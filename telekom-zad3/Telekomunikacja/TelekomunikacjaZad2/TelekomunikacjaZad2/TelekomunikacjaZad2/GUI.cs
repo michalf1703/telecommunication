@@ -35,7 +35,7 @@ namespace TelekomunikacjaZad2
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "C:\\Users\\Hp\\Desktop\\telekomunikacja_zad3";
+            openFileDialog1.InitialDirectory = "C:\\Users\\Hp\\Desktop\\pliczki";
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -59,13 +59,13 @@ namespace TelekomunikacjaZad2
                 BitText.Text = bitCode;
                 DicionaryText.Text = treeDictionary;
 
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-                saveFileDialog1.OverwritePrompt = true;
+                //SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                //saveFileDialog1.OverwritePrompt = true;
 
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    fileMenager.saveText(bitCode, saveFileDialog1.FileName);
-                }
+                //if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                //{
+                  //  fileMenager.saveText(bitCode, saveFileDialog1.FileName);
+               // }
 
 
             }
