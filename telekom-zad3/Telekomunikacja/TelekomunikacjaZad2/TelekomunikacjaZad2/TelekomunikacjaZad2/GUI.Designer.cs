@@ -186,7 +186,7 @@ namespace TelekomunikacjaZad2
             CodeButton.Name = "CodeButton";
             CodeButton.Size = new Size(239, 91);
             CodeButton.TabIndex = 2;
-            CodeButton.Text = "Zakoduj binarnie i zapisz do pliku";
+            CodeButton.Text = "Zakoduj binarnie";
             CodeButton.UseVisualStyleBackColor = false;
             CodeButton.Click += CodeButton_Click;
             // 
