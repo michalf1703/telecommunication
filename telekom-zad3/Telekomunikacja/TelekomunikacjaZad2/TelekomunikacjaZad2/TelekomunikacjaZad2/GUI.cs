@@ -99,6 +99,17 @@ namespace TelekomunikacjaZad2
             bitCode = fileReciever.getMessage(Convert.ToInt32(Port2.Text));
             StringText.Text = String.Empty;
             BitText.Text = bitCode;
+            byte[] send = fileEncoder.encodeHuffman(bitCode);
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.OverwritePrompt = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                fileMenager.saveBytes(send, saveFileDialog1.FileName);
+            }
+
+
         }
 
         // decode the file based on the code 0 and 1 and the binary tree
